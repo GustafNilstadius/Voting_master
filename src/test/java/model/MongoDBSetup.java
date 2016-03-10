@@ -14,10 +14,10 @@ import de.flapdoodle.embed.process.runtime.Network;
  */
 public class MongoDBSetup {
     private static final MongodStarter starter = MongodStarter.getDefaultInstance();
-    private MongodExecutable _mongodExe;
-    private MongodProcess _mongod;
+    private static MongodExecutable _mongodExe;
+    private static MongodProcess _mongod;
 
-    public setUp () throws Exception{
+    public static void setUp () throws Exception{
         _mongodExe = starter.prepare(new MongodConfigBuilder()
                 .version(Version.Main.PRODUCTION)
                 .net(new Net(12345, Network.localhostIsIPv6()))
@@ -26,7 +26,7 @@ public class MongoDBSetup {
         _mongod = _mongodExe.start();
     }
 
-    public void tearDown() throws Exception {
+    public static void tearDown() throws Exception {
         _mongod.stop();
         _mongodExe.stop();
     }
