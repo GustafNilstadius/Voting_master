@@ -1,0 +1,5 @@
+{
+  "http.port": 12345,
+  "db_name": "keys",
+  "connection_string": "mongodb://localhost:12345"
+}
