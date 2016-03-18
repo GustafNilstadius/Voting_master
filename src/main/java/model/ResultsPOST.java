@@ -1,17 +1,18 @@
 package model;
 
+import java.time.Instant;
 import java.util.ArrayList;
 
 /**
  * Created by Peonsson on 18/03/16.
  */
-public class MasterToResultPOST {
+public class ResultsPOST {
 
     private String pollId;
     private String owner;
     private String topic;
-    private String pollStartTime;
-    private String pollFinishTime;
+    private Instant pollStartTime;
+    private Instant pollFinishTime;
     private ArrayList<Question> questions;
 
     public String getPollId() {
@@ -38,27 +39,27 @@ public class MasterToResultPOST {
         this.topic = topic;
     }
 
-    public String getPollStartTime() {
-        return pollStartTime;
-    }
-
-    public void setPollStartTime(String pollStartTime) {
-        this.pollStartTime = pollStartTime;
-    }
-
-    public String getPollFinishTime() {
-        return pollFinishTime;
-    }
-
-    public void setPollFinishTime(String pollFinishTime) {
-        this.pollFinishTime = pollFinishTime;
-    }
-
     public ArrayList<Question> getQuestions() {
         return questions;
     }
 
     public void setQuestions(ArrayList<Question> questions) {
         this.questions = questions;
+    }
+
+    public String getPollStartTime() {
+        return pollStartTime.toString();
+    }
+
+    public void setPollStartTime(Instant pollStartTime) {
+        this.pollStartTime = pollStartTime;
+    }
+
+    public String getPollFinishTime() {
+        return pollFinishTime.toString();
+    }
+
+    public void setPollFinishTime(Instant pollFinishTime) {
+        this.pollFinishTime = pollFinishTime;
     }
 }
