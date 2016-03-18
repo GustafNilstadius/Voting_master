@@ -24,4 +24,12 @@ public class Option {
     public void setValues(ArrayList<String> values) {
         this.values = values;
     }
+
+    @Override
+    public String toString() {
+        return "Option{" +
+                "name='" + name + '\'' +
+                ", values=" + values +
+                '}';
+    }
 }

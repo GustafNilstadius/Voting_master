@@ -1,27 +1,34 @@
 package model.create_vote;
 
-import java.time.Instant;
-
 /**
  * Created by Peonsson on 18/03/16.
  */
 public class Duration {
-    private Instant begin;
-    private Instant end;
 
-    public Instant getBegin() {
+    private long begin;
+    private long end;
+
+    public long getBegin() {
         return begin;
     }
 
-    public void setBegin(Instant begin) {
+    public void setBegin(long begin) {
         this.begin = begin;
     }
 
-    public Instant getEnd() {
+    public long getEnd() {
         return end;
     }
 
-    public void setEnd(Instant end) {
+    public void setEnd(long end) {
         this.end = end;
+    }
+
+    @Override
+    public String toString() {
+        return "Duration{" +
+                "begin=" + begin +
+                ", end=" + end +
+                '}';
     }
 }

@@ -52,4 +52,15 @@ public class Vote {
     public void setOptions(ArrayList<Option> options) {
         this.options = options;
     }
+
+    @Override
+    public String toString() {
+        return "Vote{" +
+                "owner='" + owner + '\'' +
+                ", topic='" + topic + '\'' +
+                ", id='" + id + '\'' +
+                ", duration=" + duration +
+                ", options=" + options +
+                '}';
+    }
 }
