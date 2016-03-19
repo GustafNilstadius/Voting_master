@@ -1,4 +1,4 @@
-package model.vote_results;
+package model.post_vote_results;
 
 import java.time.Instant;
 import java.util.ArrayList;

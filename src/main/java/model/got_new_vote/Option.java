@@ -1,4 +1,4 @@
-package model.create_vote;
+package model.got_new_vote;
 
 import java.util.ArrayList;
 
@@ -6,6 +6,7 @@ import java.util.ArrayList;
  * Created by Peonsson on 18/03/16.
  */
 public class Option {
+
     private String name;
     private ArrayList<String> values;
 

@@ -1,4 +1,4 @@
-package control;
+package controller;
 
 import io.netty.handler.codec.http.HttpResponseStatus;
 import io.vertx.core.AbstractVerticle;
@@ -10,7 +10,7 @@ import io.vertx.ext.mongo.MongoClient;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.handler.BodyHandler;
-import model.create_vote.Vote;
+import model.got_new_vote.Vote;
 
 /**
  * Created by Peonsson on 18/03/16.
@@ -34,7 +34,7 @@ public class WebAppVerticle extends AbstractVerticle {
 
         server.requestHandler(router::accept).listen(8080);
 
-        System.out.println("server up and running..");
+        System.out.println("Server up and running..");
 
     }
 

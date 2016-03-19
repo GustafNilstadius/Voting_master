@@ -1,4 +1,4 @@
-package model.create_vote;
+package model.got_new_vote;
 
 /**
  * Created by Peonsson on 18/03/16.

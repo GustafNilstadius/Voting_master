@@ -1,4 +1,4 @@
-package model.vote_results;
+package model.post_vote_results;
 
 import java.util.ArrayList;
 
@@ -6,6 +6,7 @@ import java.util.ArrayList;
  * Created by Peonsson on 18/03/16.
  */
 public class Answer {
+
     private String answer;
     private int voteCount;
     private ArrayList<String> keysVoted;

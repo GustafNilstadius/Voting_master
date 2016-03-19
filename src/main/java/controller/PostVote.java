@@ -1,10 +1,10 @@
-package control;
+package controller;
 
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.json.Json;
-import model.create_vote.Duration;
-import model.create_vote.Option;
-import model.create_vote.Vote;
+import model.got_new_vote.Duration;
+import model.got_new_vote.Option;
+import model.got_new_vote.Vote;
 
 import java.util.ArrayList;
 

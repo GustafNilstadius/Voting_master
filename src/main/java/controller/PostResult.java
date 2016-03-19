@@ -1,10 +1,10 @@
-package control;
+package controller;
 
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.json.Json;
-import model.vote_results.Answer;
-import model.vote_results.Question;
-import model.vote_results.VoteResults;
+import model.post_vote_results.Answer;
+import model.post_vote_results.Question;
+import model.post_vote_results.VoteResults;
 
 import java.time.Instant;
 import java.util.ArrayList;
