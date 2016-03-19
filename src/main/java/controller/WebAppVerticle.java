@@ -5,6 +5,7 @@ import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Future;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.http.HttpServer;
+import io.vertx.core.json.JsonObject;
 import io.vertx.ext.mongo.MongoClient;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
@@ -13,7 +14,6 @@ import io.vertx.ext.web.handler.BodyHandler;
 /**
  * Created by Peonsson on 18/03/16.
  */
-
 public class WebAppVerticle extends AbstractVerticle {
 
     private MongoClient mongo;
@@ -42,6 +42,34 @@ public class WebAppVerticle extends AbstractVerticle {
 
     private void vote(RoutingContext routingContext) {
 
+        /*
+            sets a 10 second timer and then send results to transmitter
+         */
+        vertx.setTimer(1000*10, handler -> {
+            sendResult();
+        });
+
+        /*
+            append database with new results
+         */
+        final String id = routingContext.getBodyAsJson().getString("id");
+        JsonObject query = new JsonObject().put("id", id);
+
+        // Set the author field
+        JsonObject update = new JsonObject().put("$set", new JsonObject().put("author", "J. R. R. Tolkien"));
+
+        mongo.update("books", query, update, res -> {
+
+            if (res.succeeded()) {
+
+                System.out.println("Book updated !");
+
+            } else {
+
+                res.cause().printStackTrace();
+            }
+
+        });
     }
 
     private void addVote(RoutingContext routingContext) {
@@ -83,6 +111,10 @@ public class WebAppVerticle extends AbstractVerticle {
         catch (Exception e) {
             badRequest(routingContext);
         }
+    }
+
+    private void sendResult() {
+
     }
     /*
         Reply a HTTP Bad Request to client
