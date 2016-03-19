@@ -5,6 +5,7 @@ import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Future;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.http.HttpServer;
+import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.mongo.MongoClient;
 import io.vertx.ext.web.Router;
@@ -42,6 +43,11 @@ public class WebAppVerticle extends AbstractVerticle {
 
         router.route("/v1/vote/").method(HttpMethod.POST).handler(BodyHandler.create());
         router.post("/v1/vote/").handler(this::vote);
+
+
+        // For development purposes only. Not to be used in production.
+        router.route("/v1/test/:id/").method(HttpMethod.GET).handler(BodyHandler.create());
+        router.get("/v1/test/:id/").handler(this::test);
 
         server.requestHandler(router::accept).listen(8080);
 
@@ -133,6 +139,7 @@ public class WebAppVerticle extends AbstractVerticle {
     /*
         Send results to transmitter
      */
+    // @TODO: Not a working implementation
     private void sendResult(String id) {
 
         JsonObject query = new JsonObject().put("id", id);
@@ -140,13 +147,47 @@ public class WebAppVerticle extends AbstractVerticle {
         mongo.find(VOTES_FROM_ADMIN, query, res -> {
             if (res.succeeded()) {
                 for (JsonObject json : res.result()) {
-                    System.out.println(json.encodePrettily());
+                    JsonArray options = json.getJsonArray("options");
+                    System.out.println(options.encodePrettily());
                 }
             } else {
                 res.cause().printStackTrace();
             }
-
         });
+    }
+
+    /*
+        For development purposes only. Not to be used in production.
+     */
+    private void test(RoutingContext routingContext) {
+
+        final String id = routingContext.request().getParam("id");
+        System.out.println("id: " + id);
+        JsonObject query = new JsonObject();
+
+        mongo.find(VOTES_FROM_ADMIN, query, res -> {
+            if (res.succeeded()) {
+                for (JsonObject json : res.result()) {
+                    JsonObject voting = json.getJsonObject("voting");
+                    if(voting.getString("id").equals(id)) {
+                        System.out.println("ID MATCH");
+                        JsonArray options = voting.getJsonArray("options");
+                        for (int i = 0; i < options.size(); i++) {
+                            JsonObject obj = options.getJsonObject(i);
+                            // @TODO: continue
+                        }
+                    }
+                }
+            } else {
+                res.cause().printStackTrace();
+                badRequest(routingContext);
+            }
+        });
+
+        routingContext.response()
+                .setStatusCode(HttpResponseStatus.OK.code())
+                .putHeader("content-type", "application/json; charset=utf-8")
+                .end(routingContext.getBodyAsString());
     }
 
     /*
