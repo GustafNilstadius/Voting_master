@@ -45,7 +45,7 @@ public class WebAppVerticle extends AbstractVerticle {
         /*
             sets a 10 second timer and then send results to transmitter
          */
-        vertx.setTimer(1000*10, handler -> {
+        vertx.setTimer(1000 * 10, handler -> {
             sendResult();
         });
 
@@ -107,8 +107,7 @@ public class WebAppVerticle extends AbstractVerticle {
         }
         /*
             Send bad request to client
-         */
-        catch (Exception e) {
+         */ catch (Exception e) {
             badRequest(routingContext);
         }
     }
@@ -116,6 +115,7 @@ public class WebAppVerticle extends AbstractVerticle {
     private void sendResult() {
 
     }
+
     /*
         Reply a HTTP Bad Request to client
      */
