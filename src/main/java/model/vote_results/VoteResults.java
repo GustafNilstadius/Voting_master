@@ -1,4 +1,4 @@
-package model;
+package model.vote_results;
 
 import java.time.Instant;
 import java.util.ArrayList;
@@ -6,7 +6,7 @@ import java.util.ArrayList;
 /**
  * Created by Peonsson on 18/03/16.
  */
-public class ResultsPOST {
+public class VoteResults {
 
     private String pollId;
     private String owner;

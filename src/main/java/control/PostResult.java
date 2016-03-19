@@ -2,9 +2,9 @@ package control;
 
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.json.Json;
-import model.Answer;
-import model.Question;
-import model.ResultsPOST;
+import model.vote_results.Answer;
+import model.vote_results.Question;
+import model.vote_results.VoteResults;
 
 import java.time.Instant;
 import java.util.ArrayList;
@@ -24,7 +24,7 @@ public class PostResult extends AbstractVerticle {
     @Override
     public void start() throws Exception {
 
-        ResultsPOST post = new ResultsPOST();
+        VoteResults post = new VoteResults();
         post.setOwner("johan");
         post.setPollStartTime(Instant.now());
         post.setPollFinishTime(Instant.now());

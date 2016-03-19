@@ -65,11 +65,5 @@ public class WebAppVerticle extends AbstractVerticle {
                     .setStatusCode(HttpResponseStatus.BAD_REQUEST.code())
                     .end("BAD REQUEST");
         }
-
-//        mongo.insert(COLLECTION, whisky.toJson(), r ->
-//                routingContext.response()
-//                        .setStatusCode(201)
-//                        .putHeader("content-type", "application/json; charset=utf-8")
-//                        .end(Json.encodePrettily(whisky.setId(r.result()))));
     }
 }

@@ -1,4 +1,4 @@
-package model;
+package model.vote_results;
 
 import java.util.ArrayList;
 
