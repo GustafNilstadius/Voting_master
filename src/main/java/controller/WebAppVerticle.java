@@ -17,9 +17,18 @@ import io.vertx.ext.web.handler.BodyHandler;
 public class WebAppVerticle extends AbstractVerticle {
 
     private MongoClient mongo;
-    private int portToReceiver = 8080;// @TODO: Change to Receivers port
-    private String addrToReceiver = "130.229.147.3"; // @TODO: Change to Receivers addr
-    private String resourceToReceiver = "/v1/helloworld1/"; // @TODO: Change to Receivers resource addr
+    private final String VOTES_FROM_ADMIN = "votesFromAdmin";
+    private final String VOTES_FROM_RECEIVER = "votesFromReceiver";
+
+    // RECEIVER
+    private int portToReceiver = 8080; // @TODO: change to receivers port
+    private String addrToReceiver = "130.229.147.3"; // @TODO: change to receivers addr
+    private String resourceToReceiver = "/v1/helloworld1/"; // @TODO: change to receivers resource addr
+
+    // TRANSMITTER
+    private int portToTransmitter = 8080;// @TODO: change to transmitters port
+    private String addrToTransmitter = "130.229.147.3"; // @TODO: change to transmitters addr
+    private String resourceToTransmitter = "/v1/helloworld2/"; // @TODO: change to transmitters resource addr
 
     @Override
     public void start(Future<Void> fut) {
@@ -37,45 +46,55 @@ public class WebAppVerticle extends AbstractVerticle {
         server.requestHandler(router::accept).listen(8080);
 
         System.out.println("Server up and running..");
-
     }
 
     private void vote(RoutingContext routingContext) {
 
         /*
-            sets a 10 second timer and then send results to transmitter
+            Sets a 10 second timer and then send results to transmitter
          */
         vertx.setTimer(1000 * 10, handler -> {
-            sendResult();
+            sendResult(routingContext.getBodyAsJson().getString("id"));
         });
 
         /*
-            append database with new results
+            Persist votes from receiver(s)
          */
-        final String id = routingContext.getBodyAsJson().getString("id");
-        JsonObject query = new JsonObject().put("id", id);
+        try {
+            mongo.save(VOTES_FROM_RECEIVER, routingContext.getBodyAsJson(), res -> {
+                if (res.succeeded()) {
 
-        // Set the author field
-        JsonObject update = new JsonObject().put("$set", new JsonObject().put("author", "J. R. R. Tolkien"));
+                    String id = res.result();
+                    System.out.println("Saved votesFromReceiver with id " + id);
 
-        mongo.update("books", query, update, res -> {
+                } else {
+                    res.cause().printStackTrace();
+                }
+            });
 
-            if (res.succeeded()) {
+            /*
+                Send ok to client
+             */
+            routingContext.response()
+                    .setStatusCode(HttpResponseStatus.CREATED.code())
+                    .putHeader("content-type", "application/json; charset=utf-8")
+                    .end(routingContext.getBodyAsString());
 
-                System.out.println("Book updated !");
-
-            } else {
-
-                res.cause().printStackTrace();
-            }
-
-        });
+            /*
+                Send BadRequest to client
+             */
+        } catch (Exception e) {
+            badRequest(routingContext);
+        }
     }
 
     private void addVote(RoutingContext routingContext) {
 
+        /*
+            Persist votes from admin
+         */
         try {
-            mongo.save("votes", routingContext.getBodyAsJson(), res -> {
+            mongo.save(VOTES_FROM_ADMIN, routingContext.getBodyAsJson(), res -> {
                 if (res.succeeded()) {
 
                     String id = res.result();
@@ -103,7 +122,6 @@ public class WebAppVerticle extends AbstractVerticle {
                     })
                     .write(routingContext.getBodyAsString())
                     .end();
-
         }
         /*
             Send bad request to client
@@ -112,8 +130,23 @@ public class WebAppVerticle extends AbstractVerticle {
         }
     }
 
-    private void sendResult() {
+    /*
+        Send results to transmitter
+     */
+    private void sendResult(String id) {
 
+        JsonObject query = new JsonObject().put("id", id);
+
+        mongo.find(VOTES_FROM_ADMIN, query, res -> {
+            if (res.succeeded()) {
+                for (JsonObject json : res.result()) {
+                    System.out.println(json.encodePrettily());
+                }
+            } else {
+                res.cause().printStackTrace();
+            }
+
+        });
     }
 
     /*
