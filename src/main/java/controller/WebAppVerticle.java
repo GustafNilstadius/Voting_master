@@ -44,7 +44,6 @@ public class WebAppVerticle extends AbstractVerticle {
         router.route("/v1/vote/").method(HttpMethod.POST).handler(BodyHandler.create());
         router.post("/v1/vote/").handler(this::vote);
 
-
         // For development purposes only. Not to be used in production.
         router.route("/v1/test/:id/").method(HttpMethod.GET).handler(BodyHandler.create());
         router.get("/v1/test/:id/").handler(this::test);
@@ -110,6 +109,7 @@ public class WebAppVerticle extends AbstractVerticle {
                     res.cause().printStackTrace();
                 }
             });
+
             /*
                 Send ok to client
              */
@@ -117,6 +117,7 @@ public class WebAppVerticle extends AbstractVerticle {
                     .setStatusCode(HttpResponseStatus.CREATED.code())
                     .putHeader("content-type", "application/json; charset=utf-8")
                     .end(routingContext.getBodyAsString());
+
             /*
                 Forward data to receiver(s)
              */
@@ -129,6 +130,7 @@ public class WebAppVerticle extends AbstractVerticle {
                     .write(routingContext.getBodyAsString())
                     .end();
         }
+
         /*
             Send bad request to client
          */ catch (Exception e) {
