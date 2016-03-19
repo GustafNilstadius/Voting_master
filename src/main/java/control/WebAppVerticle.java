@@ -14,6 +14,7 @@ import model.create_vote.Vote;
 /**
  * Created by Peonsson on 18/03/16.
  */
+
 public class WebAppVerticle extends AbstractVerticle {
 
 //    private MongoClient mongo;
