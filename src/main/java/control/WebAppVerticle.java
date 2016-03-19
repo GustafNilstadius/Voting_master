@@ -6,6 +6,7 @@ import io.vertx.core.Future;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.http.HttpServer;
 import io.vertx.core.json.Json;
+import io.vertx.ext.mongo.MongoClient;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.handler.BodyHandler;
@@ -17,13 +18,13 @@ import model.create_vote.Vote;
 
 public class WebAppVerticle extends AbstractVerticle {
 
-//    private MongoClient mongo;
+    private MongoClient mongo;
 
     @Override
     public void start(Future<Void> fut) {
 
         // Create a Mongo client
-//        mongo = MongoClient.createShared(vertx, config());
+        mongo = MongoClient.createShared(vertx, config());
 
         HttpServer server = vertx.createHttpServer();
 
@@ -41,13 +42,24 @@ public class WebAppVerticle extends AbstractVerticle {
 
         try {
             final Vote vote = Json.decodeValue(routingContext.getBodyAsString(), Vote.class);
+
+            mongo.save("votes", routingContext.getBodyAsJson(), res -> {
+                if (res.succeeded()) {
+
+                    String id = res.result();
+                    System.out.println("Saved vote with id " + id);
+
+                } else {
+                    res.cause().printStackTrace();
+                }
+            });
+
             System.out.println(vote.toString());
             routingContext.response()
                     .setStatusCode(HttpResponseStatus.CREATED.code())
                     .putHeader("content-type", "application/json; charset=utf-8")
                     .end(Json.encodePrettily(vote));
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             routingContext.response()
                     .putHeader("content-type", "text/plain")
                     .setStatusCode(HttpResponseStatus.BAD_REQUEST.code())

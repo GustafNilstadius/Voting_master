@@ -15,8 +15,10 @@ import java.util.ArrayList;
 public class PostVote extends AbstractVerticle {
 
     private final int port = 8080;
-        private String addr = "localhost";
+
+    private String addr = "localhost";
 //    private String addr = "130.229.184.187";
+
     private String pollid = "asd";
     private String resource = "/v1/" + pollid + "/";
 
