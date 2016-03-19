@@ -5,11 +5,11 @@ import java.util.ArrayList;
 /**
  * Created by Peonsson on 18/03/16.
  */
-public class Vote {
+public class Voting {
 
-    private String owner;
-    private String topic;
     private String id;
+    private String topic;
+    private String owner;
 
     private ArrayList<Duration> duration;
     private ArrayList<Option> options;
@@ -56,7 +56,7 @@ public class Vote {
 
     @Override
     public String toString() {
-        return "Vote{" +
+        return "Voting{" +
                 "owner='" + owner + '\'' +
                 ", topic='" + topic + '\'' +
                 ", id='" + id + '\'' +
