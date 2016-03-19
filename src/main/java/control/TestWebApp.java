@@ -11,6 +11,7 @@ public class TestWebApp {
 
         Vertx vertx = Vertx.vertx();
 //        vertx.deployVerticle(new PostResult());
+        vertx.deployVerticle(new PostVote());
 
         vertx.deployVerticle(new WebAppVerticle());
      }
