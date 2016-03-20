@@ -62,4 +62,16 @@ public class VoteResults {
     public void setPollFinishTime(Instant pollFinishTime) {
         this.pollFinishTime = pollFinishTime;
     }
+
+    @Override
+    public String toString() {
+        return "VoteResults{" +
+                "pollId='" + pollId + '\'' +
+                ", owner='" + owner + '\'' +
+                ", topic='" + topic + '\'' +
+                ", pollStartTime=" + pollStartTime +
+                ", pollFinishTime=" + pollFinishTime +
+                ", questions=" + questions +
+                '}';
+    }
 }

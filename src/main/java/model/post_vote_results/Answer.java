@@ -34,4 +34,13 @@ public class Answer {
     public void setKeysVoted(ArrayList<String> keysVoted) {
         this.keysVoted = keysVoted;
     }
+
+    @Override
+    public String toString() {
+        return "Answer{" +
+                "answer='" + answer + '\'' +
+                ", voteCount=" + voteCount +
+                ", keysVoted=" + keysVoted +
+                '}';
+    }
 }
