@@ -2,5 +2,5 @@
   "http.port": 27017,
   "db_name": "keys",
   "connection_string": "mongodb://localhost:27017",
-  "key-len": 32
+  "key_len": 1024
 }
