@@ -21,10 +21,11 @@ public class Generate_Keys extends AbstractVerticle {
         super.start();
 
         String key_raw = new BigInteger(config().getInteger("key_len"), new SecureRandom()).toString(32);
+        System.out.println(key_raw);
         CRC32 crc = new CRC32();
         crc.update(key_raw.getBytes());
         key_raw += "" + crc.getValue();
-        //TODO genereate checksum
+        System.out.println(key_raw);
         //TODO named mongo pool
         MongoClient mongo = MongoClient.createShared(vertx, config());
         mongo.insert(COLLECTION, new JsonObject().put("_id", key_raw).put("vote", 1), result -> {

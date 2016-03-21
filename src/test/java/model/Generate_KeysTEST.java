@@ -33,7 +33,7 @@ public class Generate_KeysTEST {
                 .put("http.port", 8080)
                 .put("db_name", "keys")
                 .put("connection_string", "mongodb://localhost:" + MONGO_PORT)
-                .put("key_len", 1024);
+                .put("key_len", 32);
 
         /*MongodStarter starter = MongodStarter.getDefaultInstance();
 
